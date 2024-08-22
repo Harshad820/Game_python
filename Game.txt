@@ -1,0 +1,96 @@
+import tkinter as t
+from tkinter import StringVar
+import random
+
+#shows compuder choice and user choice along with winner 
+def Choice(user_choice):
+    global you_win,computer_win
+    clear_display()
+    label =t.Label(display,text="Your choice is :"+str(user_choice),font=(50))
+    label.pack( padx=20,pady=10)
+    choices = ["ROCK","PAPER","SCISSORS "]
+    computer_choice = random.choice(choices)
+    label =t.Label(display,text="Computer Choice:"+str(computer_choice),font=(30))
+    label.pack( padx=20,pady=10)
+    w=Winner(user_choice,computer_choice)
+
+    score(w)
+    label =t.Label(display,text="Winner Is : "+str(w),font=(30))
+    label.pack( padx=30)
+
+
+    label =t.Label(display,text="Score: You:"+str(you_win)+" computer:"+str(computer_win),font=(30))
+    label.pack( padx=30)
+
+
+    button = t.Button(display, text="PLAY AGAIN", command=play_again,width=10)
+    button.pack(pady=2,padx=5)
+
+    button = t.Button(display, text="exit", command=exit_game ,width=10)
+    button.pack(pady=2,padx=5)
+
+
+           
+#deside the winner
+def Winner( user_choice,computer_choice):
+
+    if user_choice == computer_choice:
+        return  "ITS A TIE"
+        
+    elif (user_choice == "ROCK" and computer_choice == "SCISSORS ") or (user_choice == "SCISSORS " and computer_choice == "PAPER") or (user_choice == "PAPER" and computer_choice == "ROCK"):
+        return "YOU"
+        
+    else:
+        return"COMPUTER"
+
+def score(winner):
+        global you_win,computer_win
+        if winner == "YOU":
+            you_win += 1
+        elif winner == "COMPUTER":
+            computer_win += 1
+
+#if you want to play again
+def play_again():
+    clear_display()
+    start_game()
+
+def clear_display():
+    for widget in display.winfo_children():
+        widget.destroy()
+
+#for Exit
+def exit_game():
+    display.destroy()
+
+
+
+#display and take choice
+def start_game():
+    
+    label =t.Label(display,text="ROCK  | PAPER  | SCISSORS ",font=(30))
+    label.pack( padx=20,pady=20)
+
+    label =t.Label(display,text="Chose : ",font=(30))
+    label.pack( padx=20,pady=20)
+
+    button = t.Button(display, text="ROCK", command=lambda:Choice("ROCK"),width=10)
+    button.pack(pady=2,)
+
+    button = t.Button(display, text="PAPER", command=lambda:Choice("PAPER"),width=10)
+    button.pack(pady=2)
+
+
+    button = t.Button(display, text="SCISSORS", command=lambda:Choice("SCISSORS") ,width=10)
+    button.pack(pady=2,padx=5)
+
+display=t.Tk()
+display.geometry("500x500")
+display.title("GAME")
+start_game()
+
+you_win=0
+computer_win=0
+
+
+display.mainloop()
